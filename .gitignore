@@ -1,6 +1,6 @@
 target
 test-output
 
-CucumberbddFramework/test-output
+CucumberbddFramework/test-output/
 
-CucumberbddFramework/target
+CucumberbddFramework/target/
