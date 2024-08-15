@@ -36,6 +36,17 @@ public class readConfig {
 		if(value!=null)
 			return value;
 		else
+			throw new RuntimeException("browser not specified in config file.");
+
+	}
+	
+	public String getUrl()
+	{
+		String value = prop.getProperty("url");
+
+		if(value!=null)
+			return value;
+		else
 			throw new RuntimeException("url not specified in config file.");
 
 	}

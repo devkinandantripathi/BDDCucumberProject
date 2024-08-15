@@ -15,6 +15,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import Utilities.WebUI;
 import Utilities.readConfig;
 import io.cucumber.java.After;
 import io.cucumber.java.AfterStep;
@@ -31,7 +32,7 @@ public class LoginSteps extends BaseClass{
 	@Before("@Sanity")
 	public void setUp() {
 		prop= new readConfig();
-		log = LogManager.getLogger(LoginSteps.class);
+		logger = LogManager.getLogger(LoginSteps.class);
 		String browser=prop.getBrowser().toLowerCase();
 		
 		if(browser.equalsIgnoreCase("chrome")) {
@@ -44,7 +45,7 @@ public class LoginSteps extends BaseClass{
 			WebDriverManager.edgedriver().setup();
 			driver = new EdgeDriver();
 		}
-	    log.info("Setup1 Executed.......");
+	    WebUI.comment("Setup1 Executed.......");
 	}
 	
 	@After
@@ -53,8 +54,7 @@ public class LoginSteps extends BaseClass{
 //		{
 //			captureScreenshots("screenshots");
 //		}
-		log.info("Driver closed.......");
-		System.out.println("Driver closed");
+		WebUI.comment("Driver closed.......");
 		driver.quit();
 	}
 	
@@ -86,32 +86,32 @@ public class LoginSteps extends BaseClass{
 	    
 	    login = new loginPage(driver);
 	    createAccount=new createAccountPage(driver);
-	    log.info("User launch chrome browser");
+	    WebUI.comment("User launch chrome browser");
 	}
 
 	@When("User opens URL {string}")
 	public void openUrl(String url) {
 		driver.navigate().to(url);;
-		log.info("URL open");
+		WebUI.comment("URL open");
 	}
 
 	@When("User Click on SignIn link")
 	public void clickOnSignInButton() {
 		login.clickSignInlink();
-		log.info("SignIn link button clicked");
+		WebUI.comment("SignIn link button clicked");
 	}
 
 	@Then("User Enter EmailId as {string} and password is {string}")
 	public void enterEmailIdAndPassword(String email, String pwd) {
 	    login.enterUsername(email);
 	    login.enterPassword(pwd);
-	    log.info("Enter password and Email");
+	    WebUI.comment("Enter password and Email");
 	}
 
 	@Then("User Click on SignIn button")
 	public void SignInbutton() {
 	    login.clickSignInButton();
-	    log.info("SignIn Button clicked");
+	    WebUI.comment("SignIn Button clicked");
 	}
 
 	@Then("Page title should be {string}")
