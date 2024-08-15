@@ -14,10 +14,10 @@ import pageObject.loginPage;
 
 public class BaseClass {
 	
-	public WebDriver driver;
+	public static WebDriver driver;
 	public loginPage login;
 	public createAccountPage createAccount;
-	public static Logger log;
+	public static Logger logger;
 	public readConfig prop;
 	
 	
