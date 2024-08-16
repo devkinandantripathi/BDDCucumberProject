@@ -13,6 +13,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<suiteXmlFiles>testng.xml</suiteXmlFiles>
 	</properties>
 
 	<dependencies>
@@ -141,11 +142,13 @@
 					<artifactId>maven-surefire-plugin</artifactId>
 					<version>3.3.1</version>
 					<configuration>
-						<testFailureIgnore>true</testFailureIgnore>
+						<!--<testFailureIgnore>true</testFailureIgnore>
 						<includes>
-							<!--<include>src/test/java/testRunner/Runner.java</include>-->
+							<include>src/test/java/testRunner/Runner.java</include>
 							<include>**/*Runner.java</include>
-						</includes>
+						</includes>-->
+						
+						<suiteXmlFiles>${suiteXmlFiles}</suiteXmlFiles>
 					</configuration>
 				</plugin>
 			</plugins>
