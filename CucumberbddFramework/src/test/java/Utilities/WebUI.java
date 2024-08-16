@@ -1,6 +1,8 @@
 package Utilities;
 
+import org.apache.logging.log4j.*;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 
 import stepDefinition.BaseClass;
 
@@ -10,6 +12,10 @@ public class WebUI extends BaseClass{
 	{
 		System.out.println(message);
 		logger.info(message);
+	}
+	
+	public static WebDriver getDriver() {
+		return driver.get();
 	}
 	
 	public static void scrolltoTop()

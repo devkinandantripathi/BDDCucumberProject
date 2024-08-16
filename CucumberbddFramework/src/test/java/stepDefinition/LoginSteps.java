@@ -1,20 +1,18 @@
 package stepDefinition;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Properties;
+import java.time.Duration;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.Assert;
 
+import Utilities.BrowserFactory;
+import Utilities.DriverFactory;
 import Utilities.WebUI;
 import Utilities.readConfig;
 import io.cucumber.java.After;
@@ -23,45 +21,67 @@ import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import io.cucumber.java.en.*;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import junit.framework.Assert;
 import pageObject.createAccountPage;
 import pageObject.loginPage;
 
 public class LoginSteps extends BaseClass{
+	BrowserFactory bf=new BrowserFactory();
+//	@Before("@Sanity")
+//	public void setUp() {
+//		prop= new readConfig();
+//		logger = LogManager.getLogger(LoginSteps.class);
+//		String browser=prop.getBrowser().toLowerCase();
+//		
+//		if(browser.equalsIgnoreCase("chrome")) {
+//			WebDriverManager.chromedriver().setup();
+//		    driver = new ChromeDriver();
+//		}else if(browser.equalsIgnoreCase("firefox")) {
+//			WebDriverManager.firefoxdriver().setup();
+//			driver= new FirefoxDriver();
+//		}else if(browser.equalsIgnoreCase("edge")) {
+//			WebDriverManager.edgedriver().setup();
+//			driver = new EdgeDriver();
+//		}
+//	    WebUI.comment("Setup1 Executed.......");
+//	}
 	
-	@Before("@Sanity")
-	public void setUp() {
-		prop= new readConfig();
+	@Before
+	public void LaunchApplication() throws Exception {
+		prop = new readConfig();
+		driver = ThreadLocal.withInitial(() -> DriverFactory.getInstance().getDriver());
+		System.out.println(driver.hashCode());
+		
 		logger = LogManager.getLogger(LoginSteps.class);
 		String browser=prop.getBrowser().toLowerCase();
-		
-		if(browser.equalsIgnoreCase("chrome")) {
-			WebDriverManager.chromedriver().setup();
-		    driver = new ChromeDriver();
-		}else if(browser.equalsIgnoreCase("firefox")) {
-			WebDriverManager.firefoxdriver().setup();
-			driver= new FirefoxDriver();
-		}else if(browser.equalsIgnoreCase("edge")) {
-			WebDriverManager.edgedriver().setup();
-			driver = new EdgeDriver();
-		}
-	    WebUI.comment("Setup1 Executed.......");
+		String url = prop.getUrl();
+
+		DriverFactory.getInstance().setDriver(bf.createBrowserInstance(browser));
+
+		WebUI.getDriver().manage().window().maximize();
+		driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		driver.get().navigate().to(url);
+
+	}
+
+	@After
+	public void tearDown() {
+		DriverFactory.getInstance().closeBrowser();
 	}
 	
-	@After
-	public void tearDown(/*Scenario sc*/) throws IOException {
-//		if(sc.isFailed()==true)
-//		{
-//			captureScreenshots("screenshots");
-//		}
-		WebUI.comment("Driver closed.......");
-		driver.quit();
-	}
+//	@After
+//	public void tearDown(/*Scenario sc*/) throws IOException {
+////		if(sc.isFailed()==true)
+////		{
+////			captureScreenshots("screenshots");
+////		}
+//		WebUI.comment("Driver closed.......");
+//		driver.quit();
+//	}
 	
 	@AfterStep
 	public void addScreenshots(Scenario scenario) {
 			
-			final byte[] screenshot=((TakesScreenshot)driver).getScreenshotAs(OutputType.BYTES);
+			final byte[] screenshot=((TakesScreenshot)DriverFactory.getInstance().getDriver()).getScreenshotAs(OutputType.BYTES);
 			scenario.attach(screenshot, "image/png", scenario.getName());
 	}
 	
@@ -71,7 +91,7 @@ public class LoginSteps extends BaseClass{
 
 	public String captureScreenshots(String screenShotName) throws IOException
     {
-      TakesScreenshot ts = (TakesScreenshot)driver;
+      TakesScreenshot ts = (TakesScreenshot)DriverFactory.getInstance().getDriver();
       File source = ts.getScreenshotAs(OutputType.FILE);  
 
       File file = new File("C:\\Users\\Dev\\Screenshots\\screenshots.png");
@@ -84,14 +104,15 @@ public class LoginSteps extends BaseClass{
 	@Given("User Launch chrome browser")
 	public void openBrowser() {
 	    
-	    login = new loginPage(driver);
-	    createAccount=new createAccountPage(driver);
+	    login = new loginPage(DriverFactory.getInstance().getDriver());
+	    createAccount=new createAccountPage(DriverFactory.getInstance().getDriver());
 	    WebUI.comment("User launch chrome browser");
 	}
 
 	@When("User opens URL {string}")
 	public void openUrl(String url) {
-		driver.navigate().to(url);;
+		DriverFactory.getInstance().getDriver().navigate().to(url);
+		//System.out.println(driver.hashCode());
 		WebUI.comment("URL open");
 	}
 
@@ -116,7 +137,7 @@ public class LoginSteps extends BaseClass{
 
 	@Then("Page title should be {string}")
 	public void pageTitle(String expectedTitle) {
-	   String actualTitle=driver.getTitle();
+	   String actualTitle=driver.get().getTitle();
 	   
 	   if(expectedTitle.equals(actualTitle)) {
 		   Assert.assertEquals(expectedTitle, actualTitle);
@@ -130,7 +151,7 @@ public class LoginSteps extends BaseClass{
 
 	@Then("User close the browser")
 	public void closeBrowser() {
-	    driver.close();
+	    //driver.close();
 	}
 	
 	@When("User Click on createAccount link")
