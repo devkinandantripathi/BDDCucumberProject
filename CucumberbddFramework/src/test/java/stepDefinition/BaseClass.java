@@ -2,6 +2,7 @@ package stepDefinition;
 
 import org.openqa.selenium.WebDriver;
 
+import Utilities.DriverFactory;
 import Utilities.readConfig;
 
 import java.util.Properties;
@@ -14,7 +15,8 @@ import pageObject.loginPage;
 
 public class BaseClass {
 	
-	public static WebDriver driver;
+	public static ThreadLocal<WebDriver> driver;
+	//public static WebDriver driver;
 	public loginPage login;
 	public createAccountPage createAccount;
 	public static Logger logger;
