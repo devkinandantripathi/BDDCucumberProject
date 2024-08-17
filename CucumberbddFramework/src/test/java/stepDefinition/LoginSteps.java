@@ -10,6 +10,7 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
+import org.testng.annotations.Parameters;
 
 import Utilities.BrowserFactory;
 import Utilities.DriverFactory;
@@ -48,18 +49,14 @@ public class LoginSteps extends BaseClass{
 	@Before
 	public void LaunchApplication() throws Exception {
 		prop = new readConfig();
-		driver = ThreadLocal.withInitial(() -> DriverFactory.getInstance().getDriver());
-		System.out.println(driver.hashCode());
-		
 		logger = LogManager.getLogger(LoginSteps.class);
+		driver = ThreadLocal.withInitial(() -> DriverFactory.getInstance().getDriver());
 		String browser=prop.getBrowser().toLowerCase();
 		String url = prop.getUrl();
-
 		DriverFactory.getInstance().setDriver(bf.createBrowserInstance(browser));
-
 		WebUI.getDriver().manage().window().maximize();
-		driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
-		driver.get().navigate().to(url);
+		WebUI.getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		WebUI.getDriver().navigate().to(url);
 
 	}
 
@@ -91,7 +88,7 @@ public class LoginSteps extends BaseClass{
 
 	public String captureScreenshots(String screenShotName) throws IOException
     {
-      TakesScreenshot ts = (TakesScreenshot)DriverFactory.getInstance().getDriver();
+      TakesScreenshot ts = (TakesScreenshot)WebUI.getDriver();
       File source = ts.getScreenshotAs(OutputType.FILE);  
 
       File file = new File("C:\\Users\\Dev\\Screenshots\\screenshots.png");
@@ -104,14 +101,14 @@ public class LoginSteps extends BaseClass{
 	@Given("User Launch chrome browser")
 	public void openBrowser() {
 	    
-	    login = new loginPage(DriverFactory.getInstance().getDriver());
-	    createAccount=new createAccountPage(DriverFactory.getInstance().getDriver());
+	    login = new loginPage(WebUI.getDriver());
+	    createAccount=new createAccountPage(WebUI.getDriver());
 	    WebUI.comment("User launch chrome browser");
 	}
 
 	@When("User opens URL {string}")
 	public void openUrl(String url) {
-		DriverFactory.getInstance().getDriver().navigate().to(url);
+		WebUI.getDriver().navigate().to(url);
 		//System.out.println(driver.hashCode());
 		WebUI.comment("URL open");
 	}
@@ -137,7 +134,8 @@ public class LoginSteps extends BaseClass{
 
 	@Then("Page title should be {string}")
 	public void pageTitle(String expectedTitle) {
-	   String actualTitle=driver.get().getTitle();
+	   String actualTitle=WebUI.getDriver().getTitle();
+	   System.out.println(WebUI.getDriver().hashCode());
 	   
 	   if(expectedTitle.equals(actualTitle)) {
 		   Assert.assertEquals(expectedTitle, actualTitle);
