@@ -22,7 +22,7 @@ private DriverFactory() {
 	
 	
 	//factory design pattern --> define separate factory methods for creating objects and create objects by calling that methods
-	private ThreadLocal<WebDriver> driver = new ThreadLocal<WebDriver>();
+	private static final ThreadLocal<WebDriver> driver = new ThreadLocal<WebDriver>();
 	
 	public WebDriver getDriver() {
 		return driver.get();

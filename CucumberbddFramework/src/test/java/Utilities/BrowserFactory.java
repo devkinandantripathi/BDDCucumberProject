@@ -44,7 +44,7 @@ public class BrowserFactory extends BaseClass{
 				
 				driver = new FirefoxDriver(foptions);
 
-			} if (browser.equalsIgnoreCase("ie")) {
+			} if (browser.equalsIgnoreCase("edge")) {
 
 				WebDriverManager.iedriver().setup();
 				EdgeOptions iOptions = new EdgeOptions();
