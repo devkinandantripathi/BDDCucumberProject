@@ -1,8 +1,8 @@
 Feature: Login Feature
 
   Background: Steps common for all scenarios
-    Given User Launch chrome browser
-    When User opens URL "https://magento.softwaretestingboard.com"
+    Given User Launch browser
+    #When User opens URL "https://magento.softwaretestingboard.com"
     And User Click on SignIn link
 	
 	@Sanity @Regression
@@ -15,7 +15,7 @@ Feature: Login Feature
     #And User close the browser
 
 	@Regression
-  Scenario: Validate Successful Login With Valid Credentials Using Data Driven
+  Scenario Outline: Validate Successful Login With Valid Credentials Using Data Driven
     Then User Enter EmailId as "<email>" and password is "<password>"
     And User Click on SignIn button
     #Then Page title should be ""

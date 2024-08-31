@@ -1,15 +1,19 @@
 package pageObject;
 
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
-public class createAccountPage extends loginPage{
+import Utilities.DriverFactory;
+
+public class createAccountPage{
 
 	
-	public createAccountPage(WebDriver remoteDriver) {
-		super(remoteDriver);
-		
+	public createAccountPage() {
+		WebDriver driver = DriverFactory.getInstance().getDriver();
+        PageFactory.initElements(driver, this);
 	}
 
 	@FindBy(linkText="Create an Account")
@@ -59,7 +63,7 @@ public class createAccountPage extends loginPage{
 	}
 	
 	public void clickCreateAccountBtn() {
-		createAccountBtn.sendKeys();
+		createAccountBtn.click();
 	}
 
 }
