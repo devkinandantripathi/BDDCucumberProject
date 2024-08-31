@@ -7,17 +7,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import Utilities.DriverFactory;
+
 public class loginPage {
 
-	WebDriver ldriver;
-
-	public loginPage(WebDriver remoteDriver) {
-
-		ldriver = remoteDriver;
-		PageFactory.initElements(remoteDriver, this);
-		remoteDriver.manage().window().maximize();
-		remoteDriver.manage().deleteAllCookies();
-
+	public loginPage() {
+		WebDriver driver = DriverFactory.getInstance().getDriver();
+        PageFactory.initElements(driver, this);
 	}
 	
 	

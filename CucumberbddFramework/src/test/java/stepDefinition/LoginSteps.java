@@ -27,24 +27,23 @@ import pageObject.loginPage;
 
 public class LoginSteps extends BaseClass{
 	BrowserFactory bf=new BrowserFactory();
-//	@Before("@Sanity")
-//	public void setUp() {
-//		prop= new readConfig();
-//		logger = LogManager.getLogger(LoginSteps.class);
-//		String browser=prop.getBrowser().toLowerCase();
-//		
-//		if(browser.equalsIgnoreCase("chrome")) {
-//			WebDriverManager.chromedriver().setup();
-//		    driver = new ChromeDriver();
-//		}else if(browser.equalsIgnoreCase("firefox")) {
-//			WebDriverManager.firefoxdriver().setup();
-//			driver= new FirefoxDriver();
-//		}else if(browser.equalsIgnoreCase("edge")) {
-//			WebDriverManager.edgedriver().setup();
-//			driver = new EdgeDriver();
-//		}
-//	    WebUI.comment("Setup1 Executed.......");
-//	}
+	
+	public void LoginSteps() {
+		 login = new loginPage();
+		 createAccount=new createAccountPage();
+	}
+	/*
+	 * @Before("@Sanity") public void setUp() { prop= new readConfig(); logger =
+	 * LogManager.getLogger(LoginSteps.class); String
+	 * browser=prop.getBrowser().toLowerCase();
+	 * 
+	 * if(browser.equalsIgnoreCase("chrome")) {
+	 * WebDriverManager.chromedriver().setup(); driver = new ChromeDriver(); }else
+	 * if(browser.equalsIgnoreCase("firefox")) {
+	 * WebDriverManager.firefoxdriver().setup(); driver= new FirefoxDriver(); }else
+	 * if(browser.equalsIgnoreCase("edge")) { WebDriverManager.edgedriver().setup();
+	 * driver = new EdgeDriver(); } WebUI.comment("Setup1 Executed......."); }
+	 */
 	
 	@Before
 	public void LaunchApplication() throws Exception {
@@ -63,6 +62,7 @@ public class LoginSteps extends BaseClass{
 	@After
 	public void tearDown() {
 		DriverFactory.getInstance().closeBrowser();
+		WebUI.comment("Browser Closed");
 	}
 	
 //	@After
@@ -82,7 +82,19 @@ public class LoginSteps extends BaseClass{
 			scenario.attach(screenshot, "image/png", scenario.getName());
 	}
 	
-	
+	public void colorBrowser() {
+		String browser=prop.getBrowser().toLowerCase();
+		String colorBrowser = "\u001B[32m" + browser + "\u001B[0m";
+		WebUI.comment("User launch "+colorBrowser+" browser");
+		
+		/*change the color of the browser */
+//					Red: \u001B[31m
+//		            Green: \u001B[32m
+//		            Yellow: \u001B[33m
+//		            Blue: \u001B[34m
+//		            Magenta: \u001B[35m
+//		            Cyan: \u001B[36m
+	}
 	
 	
 
@@ -98,12 +110,11 @@ public class LoginSteps extends BaseClass{
       return dest;        
     }
 	
-	@Given("User Launch chrome browser")
-	public void openBrowser() {
-	    
-	    login = new loginPage(WebUI.getDriver());
-	    createAccount=new createAccountPage(WebUI.getDriver());
-	    WebUI.comment("User launch chrome browser");
+	@Given("User Launch browser")
+	public void openBrowser() { 
+		colorBrowser();
+		login = new loginPage();
+		createAccount=new createAccountPage();
 	}
 
 	@When("User opens URL {string}")
@@ -152,27 +163,5 @@ public class LoginSteps extends BaseClass{
 	    //driver.close();
 	}
 	
-	@When("User Click on createAccount link")
-	public void user_click_on_create_account_link() {
-		createAccount.clickCreateAccountLink();
-		
-	}
-
-	@Then("User Enter Confirm Password as {string}")
-	public void user_enter_confirm_password(String confirmPwd) {
-	   createAccount.enterConfirmPassword(confirmPwd);
-	}
-
-	@Then("User Click on create Account button")
-	public void user_click_on_create_account_button() {
-	    createAccount.clickCreateAccountBtn();
-	}
-	
-	@And("User enter firstname as {string} and lastName as {string}")
-	public void enterFirstNameAndlastName(String fName, String lname) {
-		createAccount.enterFirstName(fName);
-		createAccount.enterLastName(lname);
-	}
-
 
 }
