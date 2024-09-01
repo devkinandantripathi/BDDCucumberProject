@@ -28,10 +28,6 @@ import pageObject.loginPage;
 public class LoginSteps extends BaseClass{
 	BrowserFactory bf=new BrowserFactory();
 	
-	public void LoginSteps() {
-		 login = new loginPage();
-		 createAccount=new createAccountPage();
-	}
 	/*
 	 * @Before("@Sanity") public void setUp() { prop= new readConfig(); logger =
 	 * LogManager.getLogger(LoginSteps.class); String
