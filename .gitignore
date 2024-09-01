@@ -4,3 +4,7 @@ test-output
 CucumberbddFramework/test-output/**
 
 CucumberbddFramework/target/**
+
+CucumberbddFramework/target/*
+
+CucumberbddFramework/target/test-classes/*
