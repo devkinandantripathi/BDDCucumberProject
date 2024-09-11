@@ -1,4 +1,4 @@
-package Utilities;
+package actions;
 
 import org.apache.logging.log4j.*;
 import org.openqa.selenium.JavascriptExecutor;

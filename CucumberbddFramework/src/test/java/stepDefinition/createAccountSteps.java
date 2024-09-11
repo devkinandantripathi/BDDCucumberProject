@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 
 import Utilities.DriverFactory;
-import Utilities.WebUI;
+import actions.WebUI;
 import io.cucumber.java.en.*;
 import pageObject.createAccountPage;
 
