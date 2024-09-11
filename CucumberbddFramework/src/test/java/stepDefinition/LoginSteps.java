@@ -14,7 +14,7 @@ import org.testng.annotations.Parameters;
 
 import Utilities.BrowserFactory;
 import Utilities.DriverFactory;
-import Utilities.WebUI;
+import actions.WebUI;
 import Utilities.readConfig;
 import io.cucumber.java.After;
 import io.cucumber.java.AfterStep;
