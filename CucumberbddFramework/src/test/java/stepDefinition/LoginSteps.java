@@ -19,6 +19,7 @@ import Utilities.readConfig;
 import io.cucumber.java.After;
 import io.cucumber.java.AfterStep;
 import io.cucumber.java.Before;
+import io.cucumber.java.BeforeStep;
 import io.cucumber.java.Scenario;
 import io.cucumber.java.en.*;
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -52,6 +53,7 @@ public class LoginSteps extends BaseClass{
 		WebUI.getDriver().manage().window().maximize();
 		WebUI.getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
 		WebUI.getDriver().navigate().to(url);
+		WebUI.takesScreenshot();
 
 	}
 
@@ -72,9 +74,9 @@ public class LoginSteps extends BaseClass{
 //	}
 	
 	@AfterStep
-	public void addScreenshots(Scenario scenario) {
+	public void addAfterScreenshots(Scenario scenario) {
 			
-			final byte[] screenshot=((TakesScreenshot)DriverFactory.getInstance().getDriver()).getScreenshotAs(OutputType.BYTES);
+			final byte[] screenshot=((TakesScreenshot)WebUI.getDriver()).getScreenshotAs(OutputType.BYTES);
 			scenario.attach(screenshot, "image/png", scenario.getName());
 	}
 	
@@ -97,8 +99,7 @@ public class LoginSteps extends BaseClass{
 	public String captureScreenshots(String screenShotName) throws IOException
     {
       TakesScreenshot ts = (TakesScreenshot)WebUI.getDriver();
-      File source = ts.getScreenshotAs(OutputType.FILE);  
-
+      File source = ts.getScreenshotAs(OutputType.FILE);
       File file = new File("C:\\Users\\Dev\\Screenshots\\screenshots.png");
       String dest = file.getCanonicalPath();
       File destination = new File(dest);
@@ -116,13 +117,13 @@ public class LoginSteps extends BaseClass{
 	@When("User opens URL {string}")
 	public void openUrl(String url) {
 		WebUI.getDriver().navigate().to(url);
-		//System.out.println(driver.hashCode());
 		WebUI.comment("URL open");
 	}
 
 	@When("User Click on SignIn link")
 	public void clickOnSignInButton() {
 		login.clickSignInlink();
+		WebUI.takesScreenshot();
 		WebUI.comment("SignIn link button clicked");
 	}
 
