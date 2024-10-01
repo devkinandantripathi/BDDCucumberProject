@@ -1,5 +1,5 @@
-target
-test-output
+target/
+test-output/
 
 CucumberbddFramework/test-output/**
 
@@ -7,4 +7,15 @@ CucumberbddFramework/target/**
 
 CucumberbddFramework/target/*
 
-CucumberbddFramework/target/test-classes/*
+CucumberbddFramework/target/test-classes/**
+
+*/test-classes/**
+
+test-classes/**
+
+CucumberbddFramework/target/classes/**
+
+*/target/**
+
+*/classes/**
+.*
