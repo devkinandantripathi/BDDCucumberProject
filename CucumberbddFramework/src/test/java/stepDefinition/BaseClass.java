@@ -20,7 +20,7 @@ public class BaseClass {
 	public loginPage login;
 	public createAccountPage createAccount;
 	public static Logger logger;
-	public readConfig prop;
+	public readConfig prop=new readConfig();
 	
 	
 	public String generateRandomEmailid()
